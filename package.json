@@ -1,8 +1,8 @@
 {
-  "name": "iecstruct",
+  "name": "iecstructBE",
   "version": "0.0.8",
-  "description": "Datatype parser/writer for IEC 61131-3 types and structs",
-  "main": "iecstruct.js",
+  "description": "Datatype parser/writer for IEC 61131-3 types and structs for Big Endian Data",
+  "main": "iecstructBE.js",
   "keywords": [
     "iec",
     "61131-3",

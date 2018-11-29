@@ -19,7 +19,7 @@
 // DEALINGS IN THE SOFTWARE.
 
 function iecstruct() {}
-iecstruct._VARIABLE = {
+iecstructBE._VARIABLE = {
 	prototype: {
 		asObject: function (buffer, offset) {
 			this.offset = arguments.length > 1 && typeof(arguments[1]) != 'undefined' ? arguments[1] : 0;
@@ -48,7 +48,7 @@ iecstruct._VARIABLE = {
 	}
 };
 
-iecstruct.STRUCT = function () {
+iecstructBE.STRUCT = function () {
 	this.elements = [];
 	this.elementNames = [];
 	this.bytelength = 0;
@@ -68,7 +68,7 @@ iecstruct.STRUCT = function () {
 		}
 	};
 }
-iecstruct.STRUCT.prototype.addElement = function (name, type) {
+iecstructBE.STRUCT.prototype.addElement = function (name, type) {
 	var element = {
 		name: name,
 		type: type
@@ -80,10 +80,10 @@ iecstruct.STRUCT.prototype.addElement = function (name, type) {
 	return this;
 };
 
-iecstruct.STRUCT.prototype.addArray = function (name, type, length) {
+iecstructBE.STRUCT.prototype.addArray = function (name, type, length) {
 	var element = {
 		name: name,
-		type: new iecstruct.ARRAY(type, length),
+		type: new iecstructBE.ARRAY(type, length),
 	};
 	element.bytelength = element.type.bytelength;
 	this.elements.push(element);
@@ -91,9 +91,9 @@ iecstruct.STRUCT.prototype.addArray = function (name, type, length) {
 	this.bytelength += element.type.bytelength;
 	return this;
 };
-iecstruct.STRUCT.prototype.__proto__ = iecstruct._VARIABLE.prototype;
+iecstructBE.STRUCT.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
 
-iecstruct.ARRAY = function (type, length) {
+iecstructBE.ARRAY = function (type, length) {
 	this.bytelength = length * type.bytelength;
 	this._asObject = function () {
 		var obj=[];
@@ -116,9 +116,9 @@ iecstruct.ARRAY = function (type, length) {
 		}
 	};
 };
-iecstruct.ARRAY.prototype.__proto__ = iecstruct._VARIABLE.prototype;
+iecstructBE.ARRAY.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
 
-iecstruct.STRING = function (length) {
+iecstructBE.STRING = function (length) {
 	if (typeof(length) == 'undefined') {
 		length = 80;
 	}
@@ -139,10 +139,10 @@ iecstruct.STRING = function (length) {
 		}
 	};
 };
-iecstruct.STRING.prototype.__proto__ = iecstruct._VARIABLE.prototype;
+iecstructBE.STRING.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
 
 /* untested */
-iecstruct.WSTRING = function (length) {
+iecstructBE.WSTRING = function (length) {
 	if (typeof(length) == 'undefined') {
 		length = 80;
 	}
@@ -161,9 +161,9 @@ iecstruct.WSTRING = function (length) {
 		}
 	};
 };
-iecstruct.WSTRING.prototype.__proto__ = iecstruct._VARIABLE.prototype;
+iecstructBE.WSTRING.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
 
-iecstruct.ENUM = function () {
+iecstructBE.ENUM = function () {
 	this.enumlist={};
 	this.lastval = -1;
 	this.bytelength = 2;
@@ -214,9 +214,9 @@ iecstruct.ENUM = function () {
 		}
 	}
 };
-iecstruct.ENUM.prototype.__proto__ = iecstruct._VARIABLE.prototype;
+iecstructBE.ENUM.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
 
-iecstruct.miniENUM = function () {
+iecstructBE.miniENUM = function () {
 	this.enumlist={};
 	this.lastval = -1;
 	this.bytelength = 1;
@@ -267,10 +267,10 @@ iecstruct.miniENUM = function () {
 		}
 	}
 };
-iecstruct.miniENUM.prototype.__proto__ = iecstruct._VARIABLE.prototype;
+iecstructBE.miniENUM.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
 
 
-iecstruct._BOOL = function() {
+iecstructBE._BOOL = function() {
 	this.bytelength = 1;
 	this._asObject = function () {
 		return this.buffer.readUInt8(this.offset) != 0 ? true : false;
@@ -279,10 +279,10 @@ iecstruct._BOOL = function() {
 		this.buffer.writeUInt8(obj ? 1 : 0, this.offset);
 	};
 };
-iecstruct._BOOL.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.BOOL = new iecstruct._BOOL();
+iecstructBE._BOOL.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.BOOL = new iecstructBE._BOOL();
 
-iecstruct._SINT = function() {
+iecstructBE._SINT = function() {
 	this.bytelength = 1;
 	this._asObject = function () {
 		return this.buffer.readInt8(this.offset);
@@ -291,10 +291,10 @@ iecstruct._SINT = function() {
 		this.buffer.writeInt8(obj, this.offset);
 	};
 };
-iecstruct._SINT.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.SINT = new iecstruct._SINT();
+iecstructBE._SINT.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.SINT = new iecstructBE._SINT();
 
-iecstruct._USINT = function() {
+iecstructBE._USINT = function() {
 	this.bytelength = 1;
 	this._asObject = function () {
 		return this.buffer.readUInt8(this.offset);
@@ -303,115 +303,115 @@ iecstruct._USINT = function() {
 		this.buffer.writeUInt8(obj, this.offset);
 	};
 };
-iecstruct._USINT.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.BYTE = iecstruct.USINT = new iecstruct._USINT();
+iecstructBE._USINT.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.BYTE = iecstructBE.USINT = new iecstructBE._USINT();
 
-iecstruct._INT = function() {
+iecstructBE._INT = function() {
 	this.bytelength = 2;
 	this._asObject = function () {
-		return this.buffer.readInt16LE(this.offset);
+		return this.buffer.readInt16BE(this.offset);
 	};
 	this._fromObject = function (obj) {
-		this.buffer.writeInt16LE(obj, this.offset);
+		this.buffer.writeInt16BE(obj, this.offset);
 	};
 };
-iecstruct._INT.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.INT = new iecstruct._INT();
+iecstructBE._INT.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.INT = new iecstructBE._INT();
 
-iecstruct._UINT = function() {
+iecstructBE._UINT = function() {
 	this.bytelength = 2;
 	this._asObject = function () {
-		return this.buffer.readUInt16LE(this.offset);
+		return this.buffer.readUInt16BE(this.offset);
 	};
 	this._fromObject = function (obj) {
-		this.buffer.writeUInt16LE(obj, this.offset);
+		this.buffer.writeUInt16BE(obj, this.offset);
 	};
 };
-iecstruct._UINT.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.WORD = iecstruct.UINT = new iecstruct._UINT();
+iecstructBE._UINT.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.WORD = iecstructBE.UINT = new iecstructBE._UINT();
 
-iecstruct._DINT = function() {
+iecstructBE._DINT = function() {
 	this.bytelength = 4;
 	this._asObject = function (buffer) {
-		return this.buffer.readInt32LE(this.offset);
+		return this.buffer.readInt32BE(this.offset);
 	};
 	this._fromObject = function (obj) {
-		this.buffer.writeInt32LE(obj, this.offset);
+		this.buffer.writeInt32BE(obj, this.offset);
 	};
 };
-iecstruct._DINT.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.DINT = new iecstruct._DINT();
+iecstructBE._DINT.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.DINT = new iecstructBE._DINT();
 
-iecstruct._UDINT = function() {
+iecstructBE._UDINT = function() {
 	this.bytelength = 4;
 	this._asObject = function () {
-		return this.buffer.readUInt32LE(this.offset);
+		return this.buffer.readUInt32BE(this.offset);
 	};
 	this._fromObject = function (obj) {
-		this.buffer.writeUInt32LE(obj, this.offset);
+		this.buffer.writeUInt32BE(obj, this.offset);
 	};
 };
-iecstruct._UDINT.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.DATE_AND_TIME = iecstruct.DT = iecstruct.DATE = iecstruct.DWORD = iecstruct.UDINT = new iecstruct._UDINT();
+iecstructBE._UDINT.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.DATE_AND_TIME = iecstructBE.DT = iecstructBE.DATE = iecstructBE.DWORD = iecstructBE.UDINT = new iecstructBE._UDINT();
 
-iecstruct._REAL = function() {
+iecstructBE._REAL = function() {
 	this.bytelength = 4;
 	this._asObject = function () {
-		return this.buffer.readFloatLE(this.offset);
+		return this.buffer.readFloatBE(this.offset);
 	};
 	this._fromObject = function (obj) {
-		this.buffer.writeFloatLE(obj, this.offset);
+		this.buffer.writeFloatBE(obj, this.offset);
 	};
 };
-iecstruct._REAL.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.REAL = new iecstruct._REAL();
+iecstructBE._REAL.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.REAL = new iecstructBE._REAL();
 
-iecstruct._TIME = function () {
+iecstructBE._TIME = function () {
 	this.bytelength = 4;
 	this._asObject = function () {
-		return this.buffer.readUInt32LE(this.offset) / 1000;
+		return this.buffer.readUInt32BE(this.offset) / 1000;
 	};
 	this._fromObject = function (obj) {
-		this.buffer.writeUInt32LE(obj * 1000, this.offset);
+		this.buffer.writeUInt32BE(obj * 1000, this.offset);
 	};
 };
-iecstruct._TIME.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.TOD = iecstruct.TIME_OF_DAY = iecstruct.TIME = new iecstruct._TIME();
+iecstructBE._TIME.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.TOD = iecstructBE.TIME_OF_DAY = iecstructBE.TIME = new iecstructBE._TIME();
 
-iecstruct._LINT = function() {
+iecstructBE._LINT = function() {
 	this.bytelength = 8;
 	this._asObject = function () {
-		return this.buffer.readInt64LE(this.offset);
+		return this.buffer.readInt64BE(this.offset);
 	};
 	this._fromObject = function (obj) {
-		this.buffer.writeInt64LE(obj, this.offset);
+		this.buffer.writeInt64BE(obj, this.offset);
 	};
 };
-iecstruct._LINT.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.LINT = new iecstruct._LINT();
+iecstructBE._LINT.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.LINT = new iecstructBE._LINT();
 
-iecstruct._ULINT = function() {
+iecstructBE._ULINT = function() {
 	this.bytelength = 8;
 	this._asObject = function () {
-		return this.buffer.readUInt64LE(this.offset);
+		return this.buffer.readUInt64BE(this.offset);
 	};
 	this._fromObject = function (obj) {
-		this.buffer.writeUInt64LE(obj, this.offset);
+		this.buffer.writeUInt64BE(obj, this.offset);
 	};
 };
-iecstruct._ULINT.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.LWORD = iecstruct.ULINT = new iecstruct._ULINT();
+iecstructBE._ULINT.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.LWORD = iecstructBE.ULINT = new iecstructBE._ULINT();
 
-iecstruct._LREAL = function() {
+iecstructBE._LREAL = function() {
 	this.bytelength = 8;
 	this._asObject = function () {
-		return this.buffer.readDoubleLE(this.offset);
+		return this.buffer.readDoubleBE(this.offset);
 	};
 	this._fromObject = function (obj) {
-		this.buffer.writeDoubleLE(obj, this.offset);
+		this.buffer.writeDoubleBE(obj, this.offset);
 	};
 };
-iecstruct._LREAL.prototype.__proto__ = iecstruct._VARIABLE.prototype;
-iecstruct.LREAL = new iecstruct._LREAL();
+iecstructBE._LREAL.prototype.__proto__ = iecstructBE._VARIABLE.prototype;
+iecstructBE.LREAL = new iecstructBE._LREAL();
 
-module.exports = exports = iecstruct;
+module.exports = exports = iecstructBE;
